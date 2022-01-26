@@ -4,9 +4,9 @@ import time
 import sys
 import os
 
-MIN_MATCHES = 15
-
-WINDOW_NAME = "test window"
+MIN_MATCHES = 130
+font = cv.FONT_HERSHEY_SIMPLEX 
+WINDOW_NAME = "AR Image Recognition"
 workingDir = os. getcwd()+'/'
 
 
@@ -97,17 +97,28 @@ while True:
     # Compute scene keypoints and its descriptors
     kp_frame, des_frame = orb.detectAndCompute(output_img, None)
     # Match frame descriptors with model descriptors
-    matches = bf.match(des_model, des_frame)
+    try:
+        matches = bf.match(des_model, des_frame)
+    except:
+        print('Error... Ignoring...')
+        break
     # Sort them in the order of their distance
     matches = sorted(matches, key=lambda x: x.distance)
 
     if len(matches) > MIN_MATCHES:
         # draw first 15 matches.
+        
         output_img = cv.drawMatches(sample_img, kp_model, output_img, kp_frame,
                             matches[:MIN_MATCHES], 0, flags=2)
+        
+        
+        cv.putText(output_img, "Static model", (30, 30), font, 1, (255, 25, 25), 1, cv.LINE_AA)
+        cv.putText(output_img, "WebCam ("+str(len(matches))+" matches)", (700, 30), font, 1, (255, 25, 25), 1, cv.LINE_AA)
+
         # resized_img = rescaleFrame(output_img, 0.5)
         # show result 
         cv.imshow(WINDOW_NAME, output_img)
+        time.sleep(2)
         # if param 0 wait forever
     else:
         print("Not enough matches have been found - %d/%d" % (len(matches),
