@@ -3,7 +3,7 @@ Augmented reality image / video object detection software (open-cv)
 
 # Preview
 
-![Preview of the program](https://github.com/Martincic/ar-image-recognition/blob/master/img/preview.png?raw=true)
+![Preview of the program](https://raw.githubusercontent.com/Martincic/ar-image-recognition/main/preview.png)
 
 # Installation
 ```
