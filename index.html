@@ -1,123 +1,228 @@
-<div class="contentarea">
-    <h1>
-      MDN - WebRTC: Still photo capture demo
-    </h1>
-    <p>
-     This example demonstrates how to set up a media stream using your built-in webcam, fetch an image from that stream, and create a PNG using that image.
-    </p>
-    <div class="camera">
-      <video id="video">Video stream not available.</video>
-      <button id="startbutton">Take photo</button> 
-    </div>
-    <canvas id="canvas">
-    </canvas>
-    <div class="output">
-      <img id="photo" alt="The screen capture will appear in this box."> 
-    </div>
-    <p>
-      Visit our article <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API/Taking_still_photos"> Taking still photos with WebRTC</a> to learn more about the technologies used here.
-    </p>
-  </div>
-  
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <form action="http://192.168.0.32:8081" method="GET">
+        <input type="file" name="image" accept="image/*" capture="environment">
+        <input type="submit"> 
+    </form>
+</body>
+</div>
 
-  
-<script>
-  var width = 320;    // We will scale the photo width to this
-  var height = 0;     // This will be computed based on the input stream
+<style>
+    .screenshot-image {
+    width: 150px;
+    height: 90px;
+    border-radius: 4px;
+    border: 2px solid whitesmoke;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+    position: absolute;
+    bottom: 5px;
+    left: 10px;
+    background: white;
+}
 
-  // |streaming| indicates whether or not we're currently streaming
-  // video from the camera. Obviously, we start at false.
+.display-cover {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+    margin: 5% auto;
+    position: relative;
+}
 
-  var streaming = false;
+video {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.2);
+}
 
-  // The various HTML elements we need to configure or control. These
-  // will be set by the startup() function.
+.video-options {
+    position: absolute;
+    left: 20px;
+    top: 30px;
+}
 
-  var video = null;
-  var canvas = null;
-  var photo = null;
-  var startbutton = null;
+.controls {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    display: flex;
+}
 
-  function startup() {
-    video = document.getElementById('video');
-    canvas = document.getElementById('canvas');
-    photo = document.getElementById('photo');
-    startbutton = document.getElementById('startbutton');
+.controls > button {
+    width: 45px;
+    height: 45px;
+    text-align: center;
+    border-radius: 100%;
+    margin: 0 6px;
+    background: transparent;
+}
 
-    navigator.mediaDevices.getUserMedia({video: true, audio: false})
-    .then(function(stream) {
-      video.srcObject = stream;
-      video.play();
-    })
-    .catch(function(err) {
-      console.log("An error occurred: " + err);
-    });
+.controls > button:hover svg {
+    color: white !important;
+}
 
-    video.addEventListener('canplay', function(ev){
-      if (!streaming) {
-        height = video.videoHeight / (video.videoWidth/width);
-      
-        // Firefox currently has a bug where the height can't be read from
-        // the video, so we will make assumptions if this happens.
-      
-        if (isNaN(height)) {
-          height = width / (4/3);
-        }
-      
-        video.setAttribute('width', width);
-        video.setAttribute('height', height);
-        canvas.setAttribute('width', width);
-        canvas.setAttribute('height', height);
-        streaming = true;
-      }
-    }, false);
-
-    startbutton.addEventListener('click', function(ev){
-      takepicture();
-      ev.preventDefault();
-    }, false);
-    
-    clearphoto();
-  }
-
-  // Fill the photo with an indication that none has been
-  // captured.
-
-  function clearphoto() {
-    var context = canvas.getContext('2d');
-    context.fillStyle = "#AAA";
-    context.fillRect(0, 0, canvas.width, canvas.height);
-
-    var data = canvas.toDataURL('image/png');
-    photo.setAttribute('src', data);
-  }
-  
-  // Capture a photo by fetching the current contents of the video
-  // and drawing it into a canvas, then converting that to a PNG
-  // format data URL. By drawing it on an offscreen canvas and then
-  // drawing that to the screen, we can change its size and/or apply
-  // other changes before drawing it.
-
-  function takepicture() {
-    var context = canvas.getContext('2d');
-    if (width && height) {
-      canvas.width = width;
-      canvas.height = height;
-      context.drawImage(video, 0, 0, width, height);
-    
-      var data = canvas.toDataURL('image/png');
-      photo.setAttribute('src', data);
-    } else {
-      clearphoto();
+@media (min-width: 300px) and (max-width: 400px) {
+    .controls {
+        flex-direction: column;
     }
-  }
 
-  // Set up our event listener to run the startup process
-  // once loading is complete.
-  window.addEventListener('load', startup, false);
+    .controls button {
+        margin: 5px 0 !important;
+    }
+}
+
+.controls > button > svg {
+    height: 20px;
+    width: 18px;
+    text-align: center;
+    margin: 0 auto;
+    padding: 0;
+}
+
+.controls button:nth-child(1) {
+    border: 2px solid #D2002E;
+}
+
+.controls button:nth-child(1) svg {
+    color: #D2002E;
+}
+
+.controls button:nth-child(2) {
+    border: 2px solid #008496;
+}
+
+.controls button:nth-child(2) svg {
+    color: #008496;
+}
+
+.controls button:nth-child(3) {
+    border: 2px solid #00B541;
+}
+
+.controls button:nth-child(3) svg {
+    color: #00B541;
+}
+
+.controls > button {
+    width: 45px;
+    height: 45px;
+    text-align: center;
+    border-radius: 100%;
+    margin: 0 6px;
+    background: transparent;
+}
+
+.controls > button:hover svg {
+    color: white;
+}
+
+</style>
+
+<script>
+feather.replace();
+
+const controls = document.querySelector('.controls');
+const cameraOptions = document.querySelector('.video-options>select');
+const video = document.querySelector('video');
+const canvas = document.querySelector('canvas');
+const screenshotImage = document.querySelector('img');
+const buttons = [...controls.querySelectorAll('button')];
+let streamStarted = false;
+
+const [play, pause, screenshot] = buttons;
+
+const constraints = {
+  video: {
+    width: {
+      min: 1280,
+      ideal: 1920,
+      max: 2560,
+    },
+    height: {
+      min: 720,
+      ideal: 1080,
+      max: 1440
+    },
+  }
+};
+
+const getCameraSelection = async () => {
+  const devices = await navigator.mediaDevices.enumerateDevices();
+  const videoDevices = devices.filter(device => device.kind === 'videoinput');
+  const options = videoDevices.map(videoDevice => {
+    return `<option value="${videoDevice.deviceId}">${videoDevice.label}</option>`;
+  });
+  cameraOptions.innerHTML = options.join('');
+};
+
+play.onclick = () => {
+  if (streamStarted) {
+    video.play();
+    play.classList.add('d-none');
+    pause.classList.remove('d-none');
+    return;
+  }
+  if ('mediaDevices' in navigator && navigator.mediaDevices.getUserMedia) {
+    const updatedConstraints = {
+      ...constraints,
+      deviceId: {
+        exact: cameraOptions.value
+      }
+    };
+    startStream(updatedConstraints);
+  }
+};
+
+const startStream = async (constraints) => {
+  const stream = await navigator.mediaDevices.getUserMedia(constraints);
+  handleStream(stream);
+};
+
+const handleStream = (stream) => {
+  video.srcObject = stream;
+  play.classList.add('d-none');
+  pause.classList.remove('d-none');
+  screenshot.classList.remove('d-none');
+  streamStarted = true;
+};
+
+getCameraSelection();
+
+cameraOptions.onchange = () => {
+  const updatedConstraints = {
+    ...constraints,
+    deviceId: {
+      exact: cameraOptions.value
+    }
+  };
+  startStream(updatedConstraints);
+};
+
+const pauseStream = () => {
+  video.pause();
+  play.classList.remove('d-none');
+  pause.classList.add('d-none');
+};
+
+const doScreenshot = () => {
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  canvas.getContext('2d').drawImage(video, 0, 0);
+  screenshotImage.src = canvas.toDataURL('image/webp');
+  screenshotImage.classList.remove('d-none');
+};
+
+pause.onclick = pauseStream;
+screenshot.onclick = doScreenshot;
+
 
 </script>
-        <!-- // Send file here either by WebSockets
-        ws = new WebSocket(`ws://${address}/service/audioHandler`);
-        ws.binaryData = "blob";
-        ws.send(file); // Blob object -->
