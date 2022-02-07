@@ -4,8 +4,30 @@
     var myInput = document.getElementById('myFileInput');
     const address = "192.168.0.32:8080";
 
+    async function ask() {
+        camera_stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        video.srcObject = camera_stream;
+    };
+
+    ask();
+
     function sendPic() {
-        var file = myInput.files[0];
+        let media_recorder = new MediaRecorder(camera_stream, { mimeType: 'video/webm' });
+        // event : new recorded video blob available 
+        media_recorder.addEventListener('dataavailable', function(e) {
+            blobs_recorded.push(e.data);
+        });
+
+        // event : recording stopped & all blobs sent
+        media_recorder.addEventListener('stop', function() {
+            // create local object URL from the recorded video blobs
+            let video_local = URL.createObjectURL(new Blob(blobs_recorded, { type: 'video/webm' }));
+            download_link.href = video_local;
+        });
+
+        // start recording with each recorded blob having 1 second video
+        media_recorder.start(1000);
+
 
         // Send file here either by WebSockets
         ws = new WebSocket(`ws://${address}/service/audioHandler`);
