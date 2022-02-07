@@ -3,6 +3,40 @@ import cv2 as cv
 import time
 import sys
 import os
+import socket
+import struct
+
+address = ("192.168.0.32", 8080)
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.bind(address)
+s.listen(1000)
+
+
+client, addr = s.accept()
+# print ('got connected from %s' % addr)
+
+buf = ''
+while len(buf)<4:
+    buf += client.recv(4-len(buf))
+size = struct.unpack('!i', buf)
+print ("receiving %s bytes" % size)
+
+with open('tst.jpg', 'wb') as img:
+    while True:
+        data = client.recv(1024)
+        if not data:
+            break
+        img.write(data)
+print ('received, yay!')
+
+client.close()
+
+
+
+
+
+
+exit()
 
 MIN_MATCHES = 130
 font = cv.FONT_HERSHEY_SIMPLEX 

@@ -1,5 +1,5 @@
 numpy==1.21.5
 opencv-python==4.5.5.62
 matplotlib==3.5.1
-aiohttp
-aiortc
+socket
+struct
