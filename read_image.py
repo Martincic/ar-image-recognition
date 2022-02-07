@@ -10,19 +10,18 @@ address = ("192.168.0.32", 8080)
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind(address)
 s.listen(1000)
+print(1)
 
 
 client, addr = s.accept()
+
+print('accept')
 # print ('got connected from %s' % addr)
 
-buf = ''
-while len(buf)<4:
-    buf += client.recv(4-len(buf))
-size = struct.unpack('!i', buf)
-print ("receiving %s bytes" % size)
-
 with open('tst.jpg', 'wb') as img:
+    print("open jpg")
     while True:
+        print('RECEIVING')
         data = client.recv(1024)
         if not data:
             break

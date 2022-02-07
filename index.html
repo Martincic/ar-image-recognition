@@ -3,10 +3,9 @@
 <script>
     var myInput = document.getElementById('myFileInput');
     const address = "192.168.0.32:8080";
-
+    let camera_stream = null;
     async function ask() {
         camera_stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-        video.srcObject = camera_stream;
     };
 
     ask();
@@ -35,6 +34,7 @@
         ws.send(file); // Blob object
     }
 
+    console.log("SEND");
     while(true){
         sendPic();
     }
