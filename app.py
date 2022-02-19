@@ -14,22 +14,15 @@ run_with_ngrok(app)
 def index():
     return render_template('index.html')
   
-@app.route('/maskImage' , methods=['POST'])
-def mask_image():
-	# print(request.files , file=sys.stderr)
-	file = request.files['image'].read() ## byte file
-	npimg = np.fromstring(file, np.uint8)
-	img = cv2.imdecode(npimg,cv2.IMREAD_COLOR)
-	######### Do preprocessing here ################
-	# img[img > 150] = 0
-	## any random stuff do here
-	################################################
-	img = Image.fromarray(img.astype("uint8"))
-	rawBytes = io.BytesIO()
-	img.save(rawBytes, "JPEG")
-	rawBytes.seek(0)
-	img_base64 = base64.b64encode(rawBytes.read())
-	return jsonify({'status':str(img_base64)})
+@app.route('/maskImage',methods=["POST"])
+def disp_pic():
+    data = request.data
+    encoded_data = data.split(',')[1]
+    nparr = np.fromstring(encoded_data.decode('base64'), np.uint8)
+    img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+    cv2.imshow(img)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
   
 if __name__ == "__main__":
   app.run()

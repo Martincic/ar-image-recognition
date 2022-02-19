@@ -72,34 +72,31 @@ function myTimer() {
     ctx.drawImage(video,0,0)
     ctx.translate(video,0)
 
-    var c = document.getElementById("canvas");
-    var ctx = c.getContext("2d");
-    ctx.fillStyle = "#FF0000";
-    ctx.fillRect(20, 20, 150, 100);
+    // var c = document.getElementById("canvas");
+    // var ctx = c.getContext("2d");
+    // ctx.fillStyle = "#FF0000";
+    // ctx.fillRect(20, 20, 150, 100);
 
     document.getElementById("canvas").style = "display:none;"
     //ctx.drawImage(canvas,0,0)
     data = canvas.toDataURL("image/JPEG");
 
     console.log(data)
-    let req = $.ajax({
+    $.ajax({
         type: "POST",
-        url: "/maskImage",
-        data: data,
-        contentType: false,
-        processData: false,
-        success: function (data) {
-            if (data.success) {
-                alert('Your file was successfully uploaded!');
-            } else {
-               alert('There was an error uploading your file!');
-            }
+        url: "http://127.0.0.1:5000/maskImage", //I have doubt about this url, not sure if something specific must come before "/take_pic"
+        data: imgURL,
+        success: function(data) {
+          if (data.success) {
+            alert('Your file was successfully uploaded!');
+          } else {
+            alert('There was an error uploading your file!');
+          }
         },
-        error: function (data) {
-            console.log('There was an error uploading your file!');
+        error: function(data) {
+          alert('There was an error uploading your file!');
         }
-    }).done(function () {
+      }).done(function() {
         console.log("Sent");
-        console.log(this);
-    });
+      });
 }    
