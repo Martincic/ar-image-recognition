@@ -1,5 +1,2 @@
-numpy==1.21.5
-opencv-python==4.5.5.62
-matplotlib==3.5.1
-socket
-struct
+Flask==2.0.3
+[-e] git+https://github.com/gstaff/flask-ngrok#egg=flask-ngrok

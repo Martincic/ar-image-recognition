@@ -1,0 +1,32 @@
+<!-- camera from https://www.webdevdrops.com/en/how-to-access-device-cameras-with-javascript/ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Camera</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+</head>
+
+<body>
+    <div class="container--fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="title">
+                    JS Camera
+                </h1>
+
+                <!-- MAIN STREAM -->
+                <video autoplay id="video"></video>
+            
+            </div>
+
+        </div>
+    </div>
+
+    <script src="{{url_for('static', filename='script.js')}}"></script>
+</body>
+
+</html>
