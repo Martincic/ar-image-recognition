@@ -8,6 +8,10 @@
     <title>JavaScript Camera</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <script
+    src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -20,7 +24,8 @@
 
                 <!-- MAIN STREAM -->
                 <video autoplay id="video"></video>
-            
+                <canvas id="canvas" width="640" height="480"></canvas>
+                <p id="counter"></p>
             </div>
 
         </div>
