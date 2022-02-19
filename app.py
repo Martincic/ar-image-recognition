@@ -6,6 +6,7 @@ from time import sleep
 from flask import request
 import numpy as np
 import os
+import cv2
 from werkzeug.utils import secure_filename
 
 UPLOAD_FOLDER = os.getcwd()
