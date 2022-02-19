@@ -1,2 +1,4 @@
 Flask==2.0.3
-[-e] git+https://github.com/gstaff/flask-ngrok#egg==flask-ngrok
+opencv-python
+numpy
+-e git+https://github.com/gstaff/flask-ngrok#egg=flask-ngrok
