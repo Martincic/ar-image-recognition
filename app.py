@@ -7,6 +7,7 @@ from flask import request
 import numpy as np
 import os
 import cv2
+import io
 from werkzeug.utils import secure_filename
 
 UPLOAD_FOLDER = os.getcwd()
@@ -23,19 +24,16 @@ def index():
 @app.route('/maskImage' , methods=['POST'])
 
 def mask_image():
-	file = request.files.get('imagefile', '')
-	npimg = np.fromstring(file, np.uint8)
-	img = cv2.imdecode(npimg,cv2.IMREAD_COLOR)
-	######### Do preprocessing here ################
-	# img[img > 150] = 0
-	## any random stuff do here
-	################################################
-	img = Image.fromarray(img.astype("uint8"))
-	rawBytes = io.BytesIO()
-	img.save(rawBytes, "JPEG")
-	rawBytes.seek(0)
-	img_base64 = base64.b64encode(rawBytes.read())
-	return jsonify({'status':str(img_base64)})
+  photo = request.files['photo']
+  in_memory_file = io.BytesIO()
+  photo.save(in_memory_file)
+  data = np.fromstring(in_memory_file.getvalue(), dtype=np.uint8)
+  color_image_flag = 1
+  img = cv2.imdecode(data, color_image_flag)
+  cv2.imshow('URL2Image',img)
+  cv2.waitKey(0)
+
+  return 'wo'
 
   
 if __name__ == "__main__":
