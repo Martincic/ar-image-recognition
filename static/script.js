@@ -82,21 +82,24 @@ function myTimer() {
     data = canvas.toDataURL("image/JPEG");
 
     console.log(data)
-    $.ajax({
+    let req = $.ajax({
         type: "POST",
-        url: "http://127.0.0.1:5000/maskImage", //I have doubt about this url, not sure if something specific must come before "/take_pic"
-        data: imgURL,
-        success: function(data) {
-          if (data.success) {
-            alert('Your file was successfully uploaded!');
-          } else {
-            alert('There was an error uploading your file!');
-          }
+        url: "/maskImage",
+        data: data,
+        contentType: 'image/jpeg',
+        processData: false,
+        success: function (data) {
+            if (data.success) {
+                alert('Your file was successfully uploaded!');
+            } else {
+               alert('There was an error uploading your file!');
+            }
         },
-        error: function(data) {
-          alert('There was an error uploading your file!');
+        error: function (data) {
+            console.log('There was an error uploading your file!');
         }
-      }).done(function() {
+    }).done(function () {
         console.log("Sent");
-      });
+        console.log(this);
+    });
 }    
