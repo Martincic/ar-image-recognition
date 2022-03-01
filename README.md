@@ -1,4 +1,5 @@
 # ar-image-recognition
+# RIT Campus navigator
 Augmented reality image / video object detection software (open-cv)
 Authors:
   - Sara Oguic (soguic)
