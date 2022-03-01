@@ -1,6 +1,6 @@
-# ar-image-recognition
 # RIT Campus navigator
-Augmented reality image / video object detection software (open-cv)
+Real time campus navigator. Sums the items detected in given image and calculates/outputs user's current position on RIT Zagreb campus.
+
 Authors:
   - Sara Oguic (soguic)
   - Tomas Martincic (Martincic)
