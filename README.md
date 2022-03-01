@@ -6,7 +6,7 @@ Authors:
 
 # Preview
 
-![Preview of the program](https://raw.githubusercontent.com/Martincic/ar-image-recognition/main/preview.png)
+![Preview of the program](https://raw.githubusercontent.com/Martincic/ar-image-recognition/main/preview.gif)
 
 # Installation
 ```
