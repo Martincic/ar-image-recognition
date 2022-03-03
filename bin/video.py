@@ -28,7 +28,7 @@ class ObjectDetection:
         Creates a new video streaming object to extract video frame by frame to make prediction on.
         :return: opencv2 video capture object, with lowest quality frame available for video.
         """
-        return cv2.VideoCapture('./static/nodes/front.mp4')
+        return cv2.VideoCapture('back.mp4')
 
 
     def load_model(self):
@@ -108,8 +108,6 @@ class ObjectDetection:
             fps = 1/np.round(end_time - start_time, 3)
             print(f"Frames Per Second : {fps}")
             out.write(frame)
-
-
 
 # Create a new object and execute.
 detection = ObjectDetection("video2.avi")

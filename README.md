@@ -3,6 +3,7 @@ Augmented reality image / video object detection software (open-cv)
 Authors:
   - Sara Oguic (soguic)
   - Tomas Martincic (Martincic)
+  - terminator
 
 # Preview
 
