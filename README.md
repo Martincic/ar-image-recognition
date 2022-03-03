@@ -10,7 +10,7 @@ Authors:
 ![Preview of the program](https://raw.githubusercontent.com/Martincic/ar-image-recognition/main/preview.gif)
 
 ## Tools used
-We've used [YOLOv5](https://github.com/ultralytics/yolov5) detection algorithm with which we've trained our dataset. The data was collected on site and prepared with [Roboflow](https://roboflow.com/).
+We've used [YOLOv5](https://github.com/ultralytics/yolov5) detection algorithm with which we've trained our dataset. The data was collected on site via video. We extracted the frames with [FFMPEG](https://ffmpeg.org/) and prepared with [Roboflow](https://roboflow.com/).
 
 ### Installation
 ```
