@@ -50,11 +50,43 @@
         try {
             videoStream = await navigator.mediaDevices.getUserMedia(constraints);
             video.srcObject = videoStream;
-            
+            gotMedia(videoStream)
+
         } catch (err) {
             alert("Could not access the camera");
         }
     }
+
+    // navigator.mediaDevices.getUserMedia({video: true})
+    // .then(gotMedia)
+    // .catch(error => console.error('getUserMedia() error:', error));
+
+  function gotMedia(mediaStream) {
+    const mediaStreamTrack = mediaStream.getVideoTracks()[0];
+    const imageCapture = new ImageCapture(mediaStreamTrack);
+
+    const img = document.getElementById('test');
+
+    imageCapture.takePhoto()
+    .then(blob => {
+        img.src = URL.createObjectURL(blob);
+        img.onload = () => { URL.revokeObjectURL(this.src); }
+        $.ajax({
+            url: '/getImgJs',
+            data: blob,
+            type: 'POST',
+            success: function(response) {
+                console.log('success: img sent');
+            },
+            error: function(error) {
+                console.log('error: sending image');
+            }
+        });
+    })
+    .catch(error => console.error('img error:', error));
+
+    console.log(imageCapture);
+  }
 
     initializeCamera();
 })();
