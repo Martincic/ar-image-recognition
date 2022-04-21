@@ -60,7 +60,7 @@
 })();
 
 
-setInterval(myTimer, 5000);
+setInterval(myTimer, 1000);
 let counter = 0;
 
 function myTimer() {

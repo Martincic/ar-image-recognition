@@ -19,7 +19,6 @@ class ObjectDetection:
         self.classes = self.model.names
         self.in_file = in_file
         self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
-        print("\n\nDevice Used:",self.device)
 
 
     def get_video_from_url(self):
@@ -74,7 +73,6 @@ class ObjectDetection:
         """
         labels, cord = results
         n = len(labels)
-        print(labels)
         x_shape, y_shape = frame.shape[1], frame.shape[0]
         for i in range(n):
             row = cord[i]
@@ -91,29 +89,28 @@ class ObjectDetection:
         self.score_frame(img)
         return self.json
 
-    def __call__(self):
-        """
-        This function is called when class is executed, it runs the loop to read the video frame by frame,
-        and write the output into a new file.
-        :return: void
-        """
-        player = self.get_video_from_url()
-        assert player.isOpened()
-        x_shape = int(player.get(cv2.CAP_PROP_FRAME_WIDTH))
-        y_shape = int(player.get(cv2.CAP_PROP_FRAME_HEIGHT))
-        four_cc = cv2.VideoWriter_fourcc(*"MJPG")
-        out = cv2.VideoWriter(self.in_file, four_cc, 20, (x_shape, y_shape))
-        while True:
-            start_time = time()
-            ret, frame = player.read()
-            if not ret:
-                break
-            results = 
-            frame = self.plot_boxes(results, frame)
-            end_time = time()
-            fps = 1/np.round(end_time - start_time, 3)
-            out.write(frame)
+    # def __call__(self):
+    #     """
+    #     This function is called when class is executed, it runs the loop to read the video frame by frame,
+    #     and write the output into a new file.
+    #     :return: void
+    #     """
+    #     player = self.get_video_from_url()
+    #     assert player.isOpened()
+    #     x_shape = int(player.get(cv2.CAP_PROP_FRAME_WIDTH))
+    #     y_shape = int(player.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    #     four_cc = cv2.VideoWriter_fourcc(*"MJPG")
+    #     out = cv2.VideoWriter(self.in_file, four_cc, 20, (x_shape, y_shape))
+    #     while True:
+    #         start_time = time()
+    #         ret, frame = player.read()
+    #         if not ret:
+    #             break
+    #         frame = self.plot_boxes(results, frame)
+    #         end_time = time()
+    #         fps = 1/np.round(end_time - start_time, 3)
+    #         out.write(frame)
 
 # Create a new object and execute.
-detection = ObjectDetection("video3.avi")
-detection()
+# detection = ObjectDetection("video3.avi")
+# detection()

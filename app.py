@@ -1,9 +1,11 @@
 from distutils.log import debug
+from charset_normalizer import detect
 from flask import Flask, render_template, flash, request, redirect, url_for
 from flask_ngrok import run_with_ngrok
 from threading import Thread
 from time import sleep
 from flask import request
+from matplotlib.font_manager import json_load
 import numpy as np
 import os
 import cv2
@@ -12,6 +14,7 @@ import base64, re, time
 from PIL import Image
 from io import BytesIO
 from bin.video import ObjectDetection
+import json
 
 
 UPLOAD_FOLDER = os.getcwd() +'/.upload_img/)'
@@ -31,7 +34,6 @@ def index():
 
 @app.route('/maskImage' , methods=['POST'])
 def maskImage():
-    print('aaa')
     img_data= (request.data).decode("utf-8")
 
     #convert to png
@@ -46,9 +48,13 @@ def maskImage():
 
     imgByteArr = image_data.getvalue()
     imgByteArr = base64.encodebytes(imgByteArr).decode('ascii')
-    print(imgByteArr)
     detector = ObjectDetection(TMP)
-    return detector.toJson()
+    res = detector.toJson()
+
+    printable = json.loads(res)
+    print(printable['name'])
+    print(printable['confidence'])
+    return res
 
 
 if __name__ == "__main__":
