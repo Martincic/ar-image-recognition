@@ -3,3 +3,4 @@ opencv-python
 numpy
 -e git+https://github.com/gstaff/flask-ngrok#egg=flask-ngrok
 Pillow==9.1.0
+torch

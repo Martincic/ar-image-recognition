@@ -4,7 +4,6 @@ Real time campus navigator. Sums the items detected in given image and calculate
 Authors:
   - Sara Oguic (soguic)
   - Tomas Martincic (Martincic)
-  - terminator
 
 ### Preview
 

@@ -11,9 +11,12 @@ import io
 import base64, re, time
 from PIL import Image
 from io import BytesIO
+from bin.video import ObjectDetection
 
 
 UPLOAD_FOLDER = os.getcwd() +'/.upload_img/)'
+TMP = UPLOAD_FOLDER +'tmp.png'
+
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 
@@ -39,13 +42,13 @@ def maskImage():
     t = time.time()
 
     #save png
-    img.save(UPLOAD_FOLDER + str(t) + '.png', "PNG")
+    img.save(UPLOAD_FOLDER + 'tmp.png', "PNG")
 
     imgByteArr = image_data.getvalue()
     imgByteArr = base64.encodebytes(imgByteArr).decode('ascii')
     print(imgByteArr)
-
-    return imgByteArr
+    detector = ObjectDetection(TMP)
+    return detector.toJson()
 
 
 if __name__ == "__main__":

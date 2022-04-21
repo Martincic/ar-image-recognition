@@ -4,21 +4,20 @@ import cv2
 from time import time
 import os
 
-
 class ObjectDetection:
     """
     Class implements Yolo5 model to make inferences on a youtube video using OpenCV.
     """
     
-    def __init__(self, out_file):
+    def __init__(self, in_file):
         """
         Initializes the class with youtube url and output file.
         :param url: Has to be as youtube URL,on which prediction is made.
-        :param out_file: A valid output file name.
+        :param in_file: A valid input file name.
         """
         self.model = self.load_model()
         self.classes = self.model.names
-        self.out_file = out_file
+        self.in_file = in_file
         self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
         print("\n\nDevice Used:",self.device)
 
@@ -28,7 +27,7 @@ class ObjectDetection:
         Creates a new video streaming object to extract video frame by frame to make prediction on.
         :return: opencv2 video capture object, with lowest quality frame available for video.
         """
-        return cv2.VideoCapture('back.mp4')
+        return cv2.VideoCapture('video3.mp4')
 
 
     def load_model(self):
@@ -52,6 +51,8 @@ class ObjectDetection:
         results = self.model(frame)
      
         labels, cord = results.xyxyn[0][:, -1], results.xyxyn[0][:, :-1]
+        
+        self.json = results.pandas().xyxy[0].to_json()
         return labels, cord
 
 
@@ -73,6 +74,7 @@ class ObjectDetection:
         """
         labels, cord = results
         n = len(labels)
+        print(labels)
         x_shape, y_shape = frame.shape[1], frame.shape[0]
         for i in range(n):
             row = cord[i]
@@ -84,6 +86,10 @@ class ObjectDetection:
 
         return frame
 
+    def toJson(self):
+        img = cv2.imread(self.in_file)
+        self.score_frame(img)
+        return self.json
 
     def __call__(self):
         """
@@ -96,19 +102,18 @@ class ObjectDetection:
         x_shape = int(player.get(cv2.CAP_PROP_FRAME_WIDTH))
         y_shape = int(player.get(cv2.CAP_PROP_FRAME_HEIGHT))
         four_cc = cv2.VideoWriter_fourcc(*"MJPG")
-        out = cv2.VideoWriter(self.out_file, four_cc, 20, (x_shape, y_shape))
+        out = cv2.VideoWriter(self.in_file, four_cc, 20, (x_shape, y_shape))
         while True:
             start_time = time()
             ret, frame = player.read()
             if not ret:
                 break
-            results = self.score_frame(frame)
+            results = 
             frame = self.plot_boxes(results, frame)
             end_time = time()
             fps = 1/np.round(end_time - start_time, 3)
-            print(f"Frames Per Second : {fps}")
             out.write(frame)
 
 # Create a new object and execute.
-detection = ObjectDetection("video2.avi")
+detection = ObjectDetection("video3.avi")
 detection()
