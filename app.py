@@ -25,39 +25,28 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 def index():
     return render_template('index.html')
   
+
 @app.route('/maskImage' , methods=['POST'])
+def maskImage():
+    print('aaa')
+    img_data= (request.data).decode("utf-8")
+
+    #convert to png
+    base64_data = re.sub('^data:image/.+;base64,', '', img_data )
+    byte_data = base64.b64decode(base64_data)
+    image_data = BytesIO(byte_data)
+    img = Image.open(image_data)
+    t = time.time()
+
+    #save png
+    img.save(UPLOAD_FOLDER + str(t) + '.png', "PNG")
+
+    imgByteArr = image_data.getvalue()
+    imgByteArr = base64.encodebytes(imgByteArr).decode('ascii')
+    print(imgByteArr)
+
+    return imgByteArr
 
 
-@app.route('/getImgJs', methods=['POST'])
-def getImgJs():
-  #get img from js and convert to string
-  img_data= (request.data).decode("utf-8")
-
-  #convert to png
-  base64_data = re.sub('^data:image/.+;base64,', '', img_data )
-  byte_data = base64.b64decode(base64_data)
-  image_data = BytesIO(byte_data)
-  img = Image.open(image_data)
-  t = time.time()
-
-  #save png
-  img.save(UPLOAD_FOLDER + str(t) + '.png', "PNG")
-
-  return request
-
-# def mask_image():
-#   photo = request.files['photo']
-#   in_memory_file = io.BytesIO()
-#   photo.save(in_memory_file)
-#   data = np.fromstring(in_memory_file.getvalue(), dtype=np.uint8)
-#   color_image_flag = 1
-#   img = cv2.imdecode(data, color_image_flag)
-#   cv2.imshow('URL2Image',img)
-#   cv2.waitKey(0)
-
-#   return 'wo'
-
-  
 if __name__ == "__main__":
-  # print(os.getcwd())
-  app.run(debug=True, port=5500)
+    app.run(debug=True, port=5050)

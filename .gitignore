@@ -128,3 +128,6 @@ dmypy.json
 # Pyre type checker
 .pyre/
 static/img/models/capture.png
+
+.vscode
+.DS_Store
