@@ -111,7 +111,6 @@ class ObjectDetection:
         }
         for room in predictions:
             dot = ''
-            print(room)
             if room == '16' or room == '15' or room == '13':
                 dot = '1'
             elif room == '19':
@@ -149,10 +148,11 @@ class ObjectDetection:
         # If we think it's door 19, and no paws found, it's probbably door 19
         if dots['paw'] < 1 and dots['2'] > 1:
             return '2'
+        
+        # remove indicators (non room labels)
+        dots.pop('paw')
+        dots.pop('lab')
         return max(dots, key=dots.get)
-
-
-
 
     # def __call__(self):
     #     """
