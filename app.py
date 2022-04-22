@@ -24,7 +24,7 @@ TMP = UPLOAD_FOLDER +'tmp.png'
 
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
-detector = ObjectDetection()
+# detector = ObjectDetection()
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER

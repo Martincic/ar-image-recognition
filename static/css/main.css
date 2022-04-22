@@ -2,8 +2,21 @@
     max-width: 650px;
     height: 100%;
 }
+.video-frame {
+    position: absolute;
+    z-index: 1;
+}
 
-/* #video {
-    height: 200px;
+.input {
+    padding: 4em 2em;
+    border: none;
+    position: relative;
+    top: -60px;
+    background-color: white;
+    z-index: 2;
+}
+
+#video {
+    height: 80vh !important;
     width: 100%;
-} */
+}
