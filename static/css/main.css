@@ -2,7 +2,7 @@
     max-width: 650px;
     height: 100%;
 }
-.video-frame {
+.main-frame {
     position: absolute;
     z-index: 1;
 }
@@ -10,13 +10,24 @@
 .input {
     padding: 4em 2em;
     border: none;
+    box-shadow: none;
     position: relative;
-    top: -60px;
+    top: 6vh;
     background-color: white;
     z-index: 2;
 }
 
-#video {
-    height: 80vh !important;
+#scanBtn{
+    border-radius: 5em;
+    padding: 1em;
+    margin-left: 1.2em;
+}
+
+.room-select{
+    z-index: 3;
+}
+
+#vid {
+    height: 70vh !important;
     width: 100%;
 }

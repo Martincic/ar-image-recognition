@@ -71,14 +71,21 @@ window.addEventListener('DOMContentLoaded', () => {
     initializeCamera();
 
     let scanBtn = document.getElementById('scanBtn');
+    let spinner = document.getElementById('spinner');
+    let spinner_text = document.getElementById('spinner-text');
+
     scanBtn.addEventListener("click", scanEnvironment);
 
 
     function scanEnvironment() {
+        // add spinner
+        spinner_text.textContent = '';
+        spinner.classList.remove('d-none');
+        scanBtn.style.padding = '0.5em 1em';
+
         // Take a photo every 0.5s and upload it
         let interval = setInterval(myTimer, 500);
-        console.log(dots)
-        // dots[0].setAttributeNS(null, 'fill', '#d74200');
+
         // Stop taking photos after 10s, call /processImages API and get the results
         setTimeout(function () {
             clearInterval(interval);
@@ -98,6 +105,11 @@ window.addEventListener('DOMContentLoaded', () => {
                     // draw location on map
                     dots_Off();
                     dots[sessionStorage.dot_id].setAttributeNS(null, 'fill', '#d74200');
+
+                    // remove spinner
+                    scanBtn.style.padding = '1em';
+                    spinner.classList.add('d-none');
+                    spinner_text.textContent = 'Scan';
                     // alert(data);
                 },
                 error: function (data) {
@@ -109,11 +121,8 @@ window.addEventListener('DOMContentLoaded', () => {
         }, 10000);
     }
 
-    let counter = 0;
 
     function myTimer() {
-        counter++;
-        document.getElementById('counter').innerHTML = counter;
         var canvas = document.getElementById('canvas');
         var ctx = canvas.getContext('2d');
         var video = document.getElementById('video');

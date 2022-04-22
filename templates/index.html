@@ -18,19 +18,17 @@
 </head>
 
 <body>
-    <div class='d-flex flex-column align-items-center justify-content-center video-frame'>
-
-        <video autoplay id="video"></video>
+    <div class='d-flex flex-column align-items-center justify-content-center main-frame'>
+        <div id="vid">
+            <video autoplay id="video"></video>
+        </div>
 
         <div class="input">
-            <div class="spinner-border mt-3" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
 
-            <p>Select room and scan the environment, doors if possible...</p>
+            <p class="px-2">Select room and scan the environment, doors if possible...</p>
 
             <div class="d-flex flex-row">
-                <div class="form-group">
+                <div class="form-group room-select mt-2">
                     <select class="form-control" id="sel1">
                     <option>1</option>
                     <option>2</option>
@@ -39,7 +37,7 @@
                     </select>
                 </div>
 
-                <button type="button" id="scanBtn" class="btn btn-primary mb-2 mx-4">Scan</button>
+                <button type="button" id="scanBtn" class="btn btn-primary"><span id="spinner" class="spinner-border d-none"></span><span id="spinner-text">Scan</span</button>
             </div>
         </div>
 
