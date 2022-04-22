@@ -52,8 +52,11 @@ def maskImage():
     res = detector.toJson()
 
     printable = json.loads(res)
-    print(printable['name'])
-    print(printable['confidence'])
+    try:
+        print(printable['name'])
+        print(printable['confidence'])
+    except:
+        print("ERROR")
     return res
 
 

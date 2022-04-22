@@ -86,7 +86,10 @@ class ObjectDetection:
 
     def toJson(self):
         img = cv2.imread(self.in_file)
-        self.score_frame(img)
+        try:
+            self.score_frame(img)
+        except:
+            return "{}"
         return self.json
 
     # def __call__(self):
