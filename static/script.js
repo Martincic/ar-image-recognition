@@ -73,8 +73,12 @@ function scanEnvironment() {
             url: "/processImages",
             processData: false,
             success: function (data) {
+                    
                     console.log(data);
-                    alert(data);
+                    data = JSON.parse(data);
+                    sessionStorage.dot_id = data.dot_id;
+                    alert(data.dot_id);
+                    // alert(data);
             },
             error: function (data) {
                 console.log('There was an error uploading your file!');

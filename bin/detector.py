@@ -106,6 +106,8 @@ class ObjectDetection:
             '6':0,
             '7':0,
             '8':0,
+            'lab':0,
+            'paw':0
         }
         for room in predictions:
             dot = ''
@@ -126,10 +128,27 @@ class ObjectDetection:
                 dot = '7'
             elif room == '27':
                 dot = '8'
-            elif room == 'lab' or room == 'paw':
-                continue
+            elif room == 'lab':
+                dot = 'lab'
+            elif room == 'paw':
+                dot = 'paw'
 
             dots[dot] += predictions[room]['confidence']
+        
+        # If we found lab tag, ignore dots without lab tag
+        if dots['lab'] > 1.5:
+            dots.pop('1')
+            dots.pop('2')
+            dots.pop('3')
+            dots.pop('7')
+            dots.pop('8')
+        elif dots['lab'] < 1:
+            dots.pop('4')
+            dots.pop('5')
+        
+        # If we think it's door 19, and no paws found, it's probbably door 19
+        if dots['paw'] < 1 and dots['2'] > 1:
+            return '2'
         return max(dots, key=dots.get)
 
 

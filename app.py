@@ -89,7 +89,7 @@ def processImages():
 
     dot = detector.predict_dot(predictions)
 
-    return '{"dot_id":"'+dot+'"data":'+str(predictions).replace('\'', '\"')+"}"
+    return '{"dot_id":"'+dot+'","data":'+str(predictions).replace('\'', '\"')+"}"
 
 
 if __name__ == "__main__":
