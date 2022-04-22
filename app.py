@@ -16,6 +16,7 @@ from PIL import Image
 from io import BytesIO
 from bin.detector import ObjectDetection
 import json
+import timeit
 
 
 UPLOAD_FOLDER = os.getcwd() +'/.upload_img/'
@@ -50,6 +51,8 @@ def uploadImage():
 
 @app.route('/processImages' , methods=['GET'])
 def processImages():
+    start = time.time()
+
     predictions = {}
 
     # Process all images from upload folder
@@ -62,13 +65,14 @@ def processImages():
         for k in printable['name'].keys():
             d[k] = tuple(d[k] for d in ds)
 
-        # d -> {'0': ('lab', 0.8962739706), '1': ('5', 0.7687639594), '2': ('paw', 0.7554306984), '3': ('lab', 0.3543389738), '4': ('3', 0.3261405826)}
+        # d = {'0': ('lab', 0.8962739706), '1': ('5', 0.7687639594), '2': ('paw', 0.7554306984), '3': ('lab', 0.3543389738), '4': ('3', 0.3261405826)}
         for key in d:
             name, confidence = d[key]
             try: # if confidence exists, append it
-                predictions[name] += confidence
+                predictions[name]['confidence'] += confidence
+                predictions[name]['occurences'] += 1
             except: # if confidence don't exist, set it
-                predictions[name] = confidence
+                predictions[name] = {"confidence":confidence, "occurences":1}
             txt = "%4s with confidence of %1.3f" % d[key]
             print(txt)
         print('==============')
@@ -80,8 +84,12 @@ def processImages():
     # Delete all uploaded images once done
     for image in detector.load_images_from_folder(UPLOAD_FOLDER):
         os.remove(image)
+    end = time.time()
+    print(end - start)
 
-    return "PROCESSING..."
+    dot = detector.predict_dot(predictions)
+
+    return '{"dot_id":"'+dot+'"data":'+str(predictions).replace('\'', '\"')+"}"
 
 
 if __name__ == "__main__":

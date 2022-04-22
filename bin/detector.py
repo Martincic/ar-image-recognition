@@ -96,6 +96,44 @@ class ObjectDetection:
             images.append(folder+filename)
         return images
 
+    def predict_dot(self, predictions):
+        dots = {
+            '1':0,
+            '2':0,
+            '3':0,
+            '4':0,
+            '5':0,
+            '6':0,
+            '7':0,
+            '8':0,
+        }
+        for room in predictions:
+            dot = ''
+            print(room)
+            if room == '16' or room == '15' or room == '13':
+                dot = '1'
+            elif room == '19':
+                dot = '2'
+            elif room == '1':
+                dot = '3'
+            elif room == '9' or room == '10' or room == '11' or room == '8':
+                dot = '4'
+            elif room == '4' or room == '3' or room == '2':
+                dot = '5'
+            elif room == '5' or room == '7':
+                dot = '6'
+            elif room == '6':
+                dot = '7'
+            elif room == '27':
+                dot = '8'
+            elif room == 'lab' or room == 'paw':
+                continue
+
+            dots[dot] += predictions[room]['confidence']
+        return max(dots, key=dots.get)
+
+
+
 
     # def __call__(self):
     #     """

@@ -73,6 +73,7 @@ function scanEnvironment() {
             url: "/processImages",
             processData: false,
             success: function (data) {
+                    console.log(data);
                     alert(data);
             },
             error: function (data) {
