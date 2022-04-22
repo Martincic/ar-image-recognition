@@ -118,9 +118,9 @@ class ObjectDetection:
             elif room == '1':
                 dot = '3'
             elif room == '9' or room == '10' or room == '11' or room == '8':
-                dot = '4'
-            elif room == '4' or room == '3' or room == '2':
                 dot = '5'
+            elif room == '4' or room == '3' or room == '2':
+                dot = '4'
             elif room == '5' or room == '7':
                 dot = '6'
             elif room == '6':
@@ -136,17 +136,16 @@ class ObjectDetection:
         
         # If we found lab tag, ignore dots without lab tag
         if dots['lab'] > 1.5:
+            print('LAB > 1.5')
             dots.pop('1')
             dots.pop('2')
             dots.pop('3')
             dots.pop('7')
             dots.pop('8')
-        elif dots['lab'] < 1:
-            dots.pop('4')
-            dots.pop('5')
         
-        # If we think it's door 19, and no paws found, it's probbably door 19
+        # # If we think it's door 19, and no paws found, it's probbably door 19
         if dots['paw'] < 1 and dots['2'] > 1:
+            print('special case 2')
             return '2'
         
         # remove indicators (non room labels)
