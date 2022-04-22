@@ -1,10 +1,23 @@
-.svg-map{
-    max-width: 650px;
-    height: 100%;
+#Layer_1{
+    transition: transform .2s;
 }
+
+#Layer_1:hover {
+    -ms-transform: scale(1.7); /* IE 9 */
+    -webkit-transform: scale(1.7); /* Safari 3-8 */
+    transform: scale(1.7);
+}
+
 .main-frame {
     position: absolute;
     z-index: 1;
+}
+
+.floorplan {
+    position: relative;
+    z-index: 2;
+    top: -38.2vh;
+    left: 4em;
 }
 
 .input {
