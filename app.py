@@ -50,12 +50,34 @@ def uploadImage():
 
 @app.route('/processImages' , methods=['GET'])
 def processImages():
+    predictions = {}
 
+    # Process all images from upload folder
     for image in detector.load_images_from_folder(UPLOAD_FOLDER):
         res = detector.toJson(image)
         printable = json.loads(res)
-        print(printable)
+        # try:
+        ds = [printable['name'], printable['confidence']]
+        d = {}
+        for k in printable['name'].keys():
+            d[k] = tuple(d[k] for d in ds)
+
+        # d -> {'0': ('lab', 0.8962739706), '1': ('5', 0.7687639594), '2': ('paw', 0.7554306984), '3': ('lab', 0.3543389738), '4': ('3', 0.3261405826)}
+        for key in d:
+            name, confidence = d[key]
+            try: # if confidence exists, append it
+                predictions[name] += confidence
+            except: # if confidence don't exist, set it
+                predictions[name] = confidence
+            txt = "%4s with confidence of %1.3f" % d[key]
+            print(txt)
+        print('==============')
+    print(predictions)
+
+        # except:
+        # print('err')
     
+    # Delete all uploaded images once done
     for image in detector.load_images_from_folder(UPLOAD_FOLDER):
         os.remove(image)
 
