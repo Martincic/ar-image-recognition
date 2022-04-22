@@ -10,6 +10,7 @@ import numpy as np
 import os
 import cv2
 import io
+import time
 import base64, re, time
 from PIL import Image
 from io import BytesIO
@@ -22,6 +23,7 @@ TMP = UPLOAD_FOLDER +'tmp.png'
 
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
+detector = ObjectDetection(TMP)
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -32,8 +34,8 @@ def index():
     return render_template('index.html')
   
 
-@app.route('/maskImage' , methods=['POST'])
-def maskImage():
+@app.route('/uploadImage' , methods=['POST'])
+def uploadImage():
     img_data= (request.data).decode("utf-8")
 
     #convert to png
@@ -44,20 +46,8 @@ def maskImage():
     t = time.time()
 
     #save png
-    img.save(UPLOAD_FOLDER + 'tmp.png', "PNG")
-
-    imgByteArr = image_data.getvalue()
-    imgByteArr = base64.encodebytes(imgByteArr).decode('ascii')
-    detector = ObjectDetection(TMP)
-    res = detector.toJson()
-
-    printable = json.loads(res)
-    try:
-        print(printable['name'])
-        print(printable['confidence'])
-    except:
-        print("ERROR")
-    return res
+    img.save(UPLOAD_FOLDER + str(t) +'.png', "PNG")
+    return "OK"
 
 
 if __name__ == "__main__":

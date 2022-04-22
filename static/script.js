@@ -59,8 +59,19 @@
     initializeCamera();
 })();
 
+function scanEnvironment() {
+    // Take a photo every 0.5s and upload it
+    let interval = setInterval(myTimer, 500);
 
-setInterval(myTimer, 1000);
+    // Stop taking photos after 10s, call /processImages API and get the results
+    setTimeout(function() { 
+        clearInterval(interval); 
+        //TODO: Send request to /processImages
+        //return response from processed images to the screen
+        //draw on map the prediction of where the person is located
+    }, 10000);
+}
+
 let counter = 0;
 
 function myTimer() {
@@ -81,15 +92,15 @@ function myTimer() {
     //ctx.drawImage(canvas,0,0)
     data = canvas.toDataURL("image/JPEG");
 
-    console.log(data)
     let req = $.ajax({
         type: "POST",
-        url: "/maskImage",
+        url: "/uploadImage",
         data: data,
         contentType: 'image/jpeg',
         processData: false,
         success: function (data) {
                 console.log('true');
+                console.log(data);
         },
         error: function (data) {
             console.log('There was an error uploading your file!');
