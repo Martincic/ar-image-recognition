@@ -9,15 +9,13 @@ class ObjectDetection:
     Class implements Yolo5 model to make inferences on a youtube video using OpenCV.
     """
     
-    def __init__(self, in_file):
+    def __init__(self):
         """
         Initializes the class with youtube url and output file.
         :param url: Has to be as youtube URL,on which prediction is made.
-        :param in_file: A valid input file name.
         """
         self.model = self.load_model()
         self.classes = self.model.names
-        self.in_file = in_file
         self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 
@@ -84,13 +82,20 @@ class ObjectDetection:
 
         return frame
 
-    def toJson(self):
-        img = cv2.imread(self.in_file)
+    def toJson(self, file):
+        img = cv2.imread(file)
         try:
             self.score_frame(img)
         except:
             return "{}"
         return self.json
+
+    def load_images_from_folder(self, folder):
+        images = []
+        for filename in os.listdir(folder):
+            images.append(folder+filename)
+        return images
+
 
     # def __call__(self):
     #     """

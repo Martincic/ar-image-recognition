@@ -66,9 +66,21 @@ function scanEnvironment() {
     // Stop taking photos after 10s, call /processImages API and get the results
     setTimeout(function() { 
         clearInterval(interval); 
-        //TODO: Send request to /processImages
-        //return response from processed images to the screen
-        //draw on map the prediction of where the person is located
+        //TODO: return response from processed images to the screen
+        //TODO: draw on map the prediction of where the person is located
+        $.ajax({
+            type: "GET",
+            url: "/processImages",
+            processData: false,
+            success: function (data) {
+                    alert(data);
+            },
+            error: function (data) {
+                console.log('There was an error uploading your file!');
+            }
+        }).done(function () {
+            console.log("Sent");
+        });
     }, 10000);
 }
 
