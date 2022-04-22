@@ -32,7 +32,7 @@ class ObjectDetection:
         Loads Yolo5 model from pytorch hub.
         :return: Trained Pytorch model.
         """
-        model = torch.hub.load('../yolov5', 'custom', path='best.pt', source='local')  # local repo
+        model = torch.hub.load(os.getcwd()+'/yolov5', 'custom', path='best.pt', source='local')  # local repo
 
         return model
 
