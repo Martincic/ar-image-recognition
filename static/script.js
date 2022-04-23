@@ -107,7 +107,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
                     data = JSON.parse(data);
                     sessionStorage.dot_id = data.dot_id - 1;
-                    console.log(Map.getCoordinatesForRoute(String(sessionStorage.dot_id), String(sessionStorage.dest_id)))
+                    console.log(data.dot_id);
+                    console.log(Map.getCoordinatesForRoute(String(data.dot_id), String(sessionStorage.dest_id)))
                     
                     // draw location on map
                     points_Off(dots);
