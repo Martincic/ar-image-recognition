@@ -8,7 +8,7 @@ let graph = new Graph.Graph(Coordinates.map);
 export function getCoordinatesForRoute(start_id, destination_id){
     let nodes = [];
     // Get shortest path ID's using internal map (defined at line 147@map.js)
-    let path = graph.findShortestPath('1', destination_id);
+    let path = graph.findShortestPath(start_id, destination_id);
     // for every ID, find the element and get XY coordinates
     path.forEach(node_id => {
         let x,y = 0;
