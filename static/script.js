@@ -108,8 +108,8 @@ window.addEventListener('DOMContentLoaded', () => {
                     data = JSON.parse(data);
                     sessionStorage.dot_id = data.dot_id - 1;
                     console.log(data.dot_id);
-                    console.log(Map.getCoordinatesForRoute(String(data.dot_id), String(sessionStorage.dest_id)))
-                    
+                    let coords = Map.getCoordinatesForRoute(String(data.dot_id), String(sessionStorage.dest_id));
+                    drawLines(coords);
                     // draw location on map
                     points_Off(dots);
                     points_Off(dest);
@@ -131,6 +131,22 @@ window.addEventListener('DOMContentLoaded', () => {
         }, 10000);
     }
 
+
+    function drawLines(coords) {
+        $(".delete").empty();
+        for (let index = 0; index < coords.length-1; index++) {
+            const element = coords[index];
+            const next = coords[index+1];
+            var newLine = document.createElementNS('http://www.w3.org/2000/svg','line');
+            newLine.setAttribute('class', 'delete');
+            newLine.setAttribute('x1', element.x);
+            newLine.setAttribute('y1', element.y);
+            newLine.setAttribute('x2', next.x);
+            newLine.setAttribute('y2', next.y);
+            newLine.setAttribute("stroke", "black")
+            $("#Layer_1").append(newLine);
+        }
+    }
 
     function myTimer() {
         var canvas = document.getElementById('canvas');
