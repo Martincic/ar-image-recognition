@@ -128,12 +128,12 @@ window.addEventListener('DOMContentLoaded', () => {
             }).done(function () {
                 console.log("Sent");
             });
-        }, 10000);
+        }, 1000);
     }
 
 
     function drawLines(coords) {
-        $(".delete").empty();
+        $("#Layer_1").find('.delete').remove();
         for (let index = 0; index < coords.length-1; index++) {
             const element = coords[index];
             const next = coords[index+1];
