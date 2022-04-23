@@ -1,3 +1,4 @@
+import * as Map from './map.js';
 // from https://www.webdevdrops.com/en/how-to-access-device-cameras-with-javascript/
 window.addEventListener('DOMContentLoaded', () => {
     if (
@@ -106,7 +107,7 @@ window.addEventListener('DOMContentLoaded', () => {
                     console.log(data);
                     data = JSON.parse(data);
                     sessionStorage.dot_id = data.dot_id - 1;
-                    alert(data.dot_id);
+                    console.log(Map.getCoordinatesForRoute('B', 'G'))
                     
                     // draw location on map
                     points_Off(dots);
@@ -136,7 +137,7 @@ window.addEventListener('DOMContentLoaded', () => {
         ctx.translate(video, 0)
 
         document.getElementById("canvas").style = "display:none;"
-        data = canvas.toDataURL("image/JPEG");
+        let data = canvas.toDataURL("image/JPEG");
 
         let req = $.ajax({
             type: "POST",
