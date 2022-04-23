@@ -128,7 +128,7 @@ window.addEventListener('DOMContentLoaded', () => {
             }).done(function () {
                 console.log("Sent");
             });
-        }, 1000);
+        }, 10000);
     }
 
 
