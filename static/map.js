@@ -248,31 +248,38 @@ let map = {
     },'d-gym':{'J':1},'d-29':{'I':1}
 };
 
+
 let graph = new Graph(map);
 
-let path = graph.findShortestPath('C', 'd-gym');
+function getCoordinatesForRoute(start_id, destination_id){
+    let nodes = [];
+    // Get shortest path ID's using internal map (defined at line 147@map.js)
+    let path = graph.findShortestPath(start_id, destination_id);
 
-let nodes = [];
-path.forEach(node_id => {
-
-    node = document.getElementById(node_id);
-    nodes.push(node);
-    let x, y = 0;
-    try{
-        x = node.attributes.cx.value;
-        y = node.attributes.cy.value;
-    }
-    catch(e){
-        if (e instanceof TypeError) {
-            console.log('type error');
+    // for every ID, find the element and get XY coordinates
+    path.forEach(node_id => {
+        let x,y = 0;
+        let node = document.getElementById(node_id); 
+        
+        // Parse coordinates from different types of SVG objects
+        if(node.attributes.class.value.split(' ').includes('item')){
+            let points = node.attributes.points.value.split(' ');
+            y = points[5];
+            x = (parseFloat(points[4]) + parseFloat(points[10])) / 2;
         }
-        else {
+        else if(node.attributes.class.value.split(' ').includes('point')){
+            x = node.attributes.cx.value;
+            y = node.attributes.cy.value;
+        }
+        else if (node.attributes.class.value.split(' ').includes('destination')) {
             x = node.attributes.x.value;
             y = node.attributes.y.value;
         }
-    }
-    console.log('ID:'+node_id + " x:"+x + " y:"+y);
+        let coords = {'x':parseFloat(x),'y':parseFloat(y)}
+        nodes.push(coords);
+    });
 
-});
+    return nodes;
+}
 
-console.log(nodes);
+console.log(getCoordinatesForRoute('B', 'G'))
