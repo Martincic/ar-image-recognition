@@ -13,7 +13,7 @@ window.addEventListener('DOMContentLoaded', () => {
     // TEST SVG MAP
     let dots = document.querySelectorAll('.point');
     let dest = document.querySelectorAll('.destination');
-    
+    let map_path = document.querySelectorAll('.item');
 
     function points_Off(arr) {
         for (var i = 0; i < arr.length; i++) {
@@ -23,6 +23,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
     points_Off(dots);
     points_Off(dest);
+
+    points_Off(map_path);
 
     // get page elements
     const video = document.querySelector("#video");
