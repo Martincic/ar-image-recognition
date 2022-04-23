@@ -112,7 +112,9 @@ window.addEventListener('DOMContentLoaded', () => {
                     
                     // draw location on map
                     points_Off(dots);
+                    points_Off(dest);
                     dots[sessionStorage.dot_id].setAttributeNS(null, 'fill', '#d74200');
+                    document.getElementById(sessionStorage.dest_id).setAttributeNS(null, 'fill', '#FFFFFF');
 
                     // remove spinner
                     scanBtn.style.padding = '1em';
