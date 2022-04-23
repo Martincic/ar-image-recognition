@@ -1,5 +1,4 @@
 // from https://www.webdevdrops.com/en/how-to-access-device-cameras-with-javascript/
-
 window.addEventListener('DOMContentLoaded', () => {
     if (
         !"mediaDevices" in navigator ||
