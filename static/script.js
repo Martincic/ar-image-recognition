@@ -69,7 +69,8 @@ window.addEventListener('DOMContentLoaded', () => {
             video.srcObject = videoStream;
 
         } catch (err) {
-            alert("Could not access the camera");
+            // alert("Could not access the camera");
+            console.log("Could not access the camera");
         }
     }
 
@@ -104,10 +105,9 @@ window.addEventListener('DOMContentLoaded', () => {
                 processData: false,
                 success: function (data) {
 
-                    console.log(data);
                     data = JSON.parse(data);
                     sessionStorage.dot_id = data.dot_id - 1;
-                    console.log(Map.getCoordinatesForRoute('B', 'G'))
+                    console.log(Map.getCoordinatesForRoute(String(sessionStorage.dot_id), String(sessionStorage.dest_id)))
                     
                     // draw location on map
                     points_Off(dots);
@@ -146,8 +146,6 @@ window.addEventListener('DOMContentLoaded', () => {
             contentType: 'image/jpeg',
             processData: false,
             success: function (data) {
-                console.log('true');
-                console.log(data);
             },
             error: function (data) {
                 console.log('There was an error uploading your file!');

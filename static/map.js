@@ -6,6 +6,8 @@ import * as Coordinates from './coordinates.js';
 let graph = new Graph.Graph(Coordinates.map);
 
 export function getCoordinatesForRoute(start_id, destination_id){
+    console.log(start_id);
+    console.log(destination_id);
     let nodes = [];
     // Get shortest path ID's using internal map (defined at line 147@map.js)
     let path = graph.findShortestPath(start_id, destination_id);
