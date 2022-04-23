@@ -108,11 +108,15 @@ window.addEventListener('DOMContentLoaded', () => {
                     data = JSON.parse(data);
                     sessionStorage.dot_id = data.dot_id - 1;
                     console.log(data.dot_id);
+
+                    // draw routes
                     let coords = Map.getCoordinatesForRoute(String(data.dot_id), String(sessionStorage.dest_id));
                     drawLines(coords);
+
                     // draw location on map
                     points_Off(dots);
                     points_Off(dest);
+                    points_Off(map_path);
                     dots[sessionStorage.dot_id].setAttributeNS(null, 'fill', '#d74200');
                     document.getElementById(sessionStorage.dest_id).setAttributeNS(null, 'fill', '#FFFFFF');
 
@@ -120,7 +124,6 @@ window.addEventListener('DOMContentLoaded', () => {
                     scanBtn.style.padding = '1em';
                     spinner.classList.add('d-none');
                     spinner_text.textContent = 'Scan';
-                    // alert(data);
                 },
                 error: function (data) {
                     console.log('There was an error uploading your file!');
