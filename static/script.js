@@ -1,4 +1,5 @@
-import * as Map from './map.js';
+import { getCoordinatesForRoute } from './map.js';
+
 // from https://www.webdevdrops.com/en/how-to-access-device-cameras-with-javascript/
 window.addEventListener('DOMContentLoaded', () => {
     if (
@@ -110,7 +111,7 @@ window.addEventListener('DOMContentLoaded', () => {
                     console.log(data.dot_id);
 
                     // draw routes
-                    let coords = Map.getCoordinatesForRoute(String(data.dot_id), String(sessionStorage.dest_id));
+                    let coords = getCoordinatesForRoute(String(data.dot_id), String(sessionStorage.dest_id));
                     drawLines(coords);
 
                     // draw location on map

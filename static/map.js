@@ -1,9 +1,9 @@
 //Campus map points
 
-import * as Graph from './graph.js';
-import * as Coordinates from './coordinates.js';
+import { Graph } from './graph.js';
+import { MAP } from './coordinates.js';
 
-let graph = new Graph.Graph(Coordinates.map);
+let graph = new Graph(MAP);
 
 export function getCoordinatesForRoute(start_id, destination_id){
     let nodes = [];

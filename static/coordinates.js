@@ -1,5 +1,5 @@
 
-export let map = {
+export let MAP = {
     'C': { //enterance
         'B':1
     },

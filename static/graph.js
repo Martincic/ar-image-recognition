@@ -1,5 +1,5 @@
 
-export var Graph = (function (undefined) {
+export let Graph = (function (undefined) {
 
 	var extractKeys = function (obj) {
 		var keys = [], key;
