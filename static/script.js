@@ -12,14 +12,23 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // TEST SVG MAP
     let dots = document.querySelectorAll('.point');
+    let dest = document.querySelectorAll('.destination');
+    
 
     function dots_Off() {
         for (var i = 0; i < dots.length; i++) {
             dots[i].setAttributeNS(null, 'fill', '#0d6efd00');
         }
     }
-    dots_Off()
 
+    function destination_Off() {
+        for (var i = 0; i < dest.length; i++) {
+            dest[i].setAttributeNS(null, 'fill', '#0d6efd00');
+        }
+    }
+
+    dots_Off()
+    destination_Off()
 
     // get page elements
     const video = document.querySelector("#video");
