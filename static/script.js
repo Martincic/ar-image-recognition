@@ -15,20 +15,14 @@ window.addEventListener('DOMContentLoaded', () => {
     let dest = document.querySelectorAll('.destination');
     
 
-    function dots_Off() {
-        for (var i = 0; i < dots.length; i++) {
-            dots[i].setAttributeNS(null, 'fill', '#0d6efd00');
+    function points_Off(arr) {
+        for (var i = 0; i < arr.length; i++) {
+            arr[i].setAttributeNS(null, 'fill', '#0d6efd00');
         }
     }
 
-    function destination_Off() {
-        for (var i = 0; i < dest.length; i++) {
-            dest[i].setAttributeNS(null, 'fill', '#0d6efd00');
-        }
-    }
-
-    dots_Off()
-    destination_Off()
+    points_Off(dots);
+    points_Off(dest);
 
     // get page elements
     const video = document.querySelector("#video");
@@ -112,7 +106,7 @@ window.addEventListener('DOMContentLoaded', () => {
                     alert(data.dot_id);
                     
                     // draw location on map
-                    dots_Off();
+                    points_Off(dots);
                     dots[sessionStorage.dot_id].setAttributeNS(null, 'fill', '#d74200');
 
                     // remove spinner
