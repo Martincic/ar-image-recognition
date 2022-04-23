@@ -87,14 +87,16 @@ window.addEventListener('DOMContentLoaded', () => {
         spinner.classList.remove('d-none');
         scanBtn.style.padding = '0.5em 1em';
 
+        // store destination
+        sessionStorage.dest_id = document.getElementById('sel1').value;
+        console.log('selected destination: ', sessionStorage.dest_id);
+
         // Take a photo every 0.5s and upload it
         let interval = setInterval(myTimer, 500);
 
         // Stop taking photos after 10s, call /processImages API and get the results
         setTimeout(function () {
             clearInterval(interval);
-            //TODO: return response from processed images to the screen
-            //TODO: draw on map the prediction of where the person is located
             $.ajax({
                 type: "GET",
                 url: "/processImages",
