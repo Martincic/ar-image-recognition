@@ -1,6 +1,8 @@
-import { getCoordinatesForRoute } from './map.js';
+import { getCoordinatesForRoute } from './path/map.js';
 
-// from https://www.webdevdrops.com/en/how-to-access-device-cameras-with-javascript/
+
+// getUserMedia from https://www.webdevdrops.com/en/how-to-access-device-cameras-with-javascript/
+
 window.addEventListener('DOMContentLoaded', () => {
     if (
         !"mediaDevices" in navigator ||
@@ -22,13 +24,16 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // map points off
     points_Off(dots);
     points_Off(dest);
-
     points_Off(map_path);
+
 
     // get page elements
     const video = document.querySelector("#video");
+    // current video stream
+    let videoStream;
 
     // video constraints
     const constraints = {
@@ -49,9 +54,6 @@ window.addEventListener('DOMContentLoaded', () => {
             },
         },
     };
-
-    // current video stream
-    let videoStream;
 
     // stop video stream
     function stopVideoStream() {
@@ -141,6 +143,7 @@ window.addEventListener('DOMContentLoaded', () => {
         for (let index = 0; index < coords.length-1; index++) {
             const element = coords[index];
             const next = coords[index+1];
+
             var newLine = document.createElementNS('http://www.w3.org/2000/svg','line');
             newLine.setAttribute('class', 'delete');
             newLine.setAttribute('x1', element.x);
