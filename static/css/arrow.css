@@ -168,10 +168,11 @@
   }
 
 #arrow{
-    position: relative;
-    z-index: 2;
-    top: -25vh;
-    left: 45%;
-    width: 10%;
+    position: absolute;
+    z-index: 22;
+    top: 25vh;
+    left: 90%;
+    width: 8%;
     height: auto;
+    display: none;
 }

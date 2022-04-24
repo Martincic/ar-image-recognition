@@ -1,8 +1,11 @@
 import { getCoordinatesForRoute } from './path/map.js';
 
 
-// getUserMedia from https://www.webdevdrops.com/en/how-to-access-device-cameras-with-javascript/
+const FRAMES = 4;
+let counter = 0;    //counter to stop scan after FRAMES/2
 
+
+// getUserMedia from https://www.webdevdrops.com/en/how-to-access-device-cameras-with-javascript/
 window.addEventListener('DOMContentLoaded', () => {
     if (
         !"mediaDevices" in navigator ||
@@ -12,7 +15,7 @@ window.addEventListener('DOMContentLoaded', () => {
         return;
     }
     
-    // TEST SVG MAP
+    // SVG MAP
     let dots = document.querySelectorAll('.point');
     let dest = document.querySelectorAll('.destination');
     let map_path = document.querySelectorAll('.item');
@@ -81,6 +84,7 @@ window.addEventListener('DOMContentLoaded', () => {
     let spinner = document.getElementById('spinner');
     let spinner_text = document.getElementById('spinner-text');
     let select = document.getElementById('sel1');
+
     scanBtn.addEventListener("click", scanEnvironment);
 
 
@@ -99,55 +103,67 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    let interval = null;
+
     function scanEnvironment() {
         // add spinner
         spinner_text.textContent = '';
         spinner.classList.remove('d-none');
         scanBtn.style.padding = '0.5em 1em';
+        document.getElementById('arrow').style.display = 'block';
 
         // store destination
         sessionStorage.dest_id = select.value;
         console.log('selected destination: ', sessionStorage.dest_id);
 
         // Take a photo every 0.5s and upload it
-        let interval = setInterval(myTimer, 500);
+        interval = setInterval(myTimer, 500);
+        
+        // push this to myTimer
+        // if(counter === 2) {
+        //     console.log('counter is 2');
+        //     processImages();
+        //     clearInterval(interval);
+        //     counter = 0;
+        // }
 
-        // Stop taking photos after 10s, call /processImages API and get the results
-        setTimeout(function () {
-            clearInterval(interval);
-            $.ajax({
-                type: "GET",
-                url: "/processImages",
-                processData: false,
-                success: function (data) {
+    }
 
-                    data = JSON.parse(data);
-                    sessionStorage.dot_id = data.dot_id - 1;
-                    console.log(data.dot_id);
+    function processImages() {
+        clearInterval(interval);
+        $.ajax({
+            type: "GET",
+            url: "/processImages",
+            processData: false,
+            success: function (data) {
 
-                    // draw routes
-                    let coords = getCoordinatesForRoute(String(data.dot_id), String(sessionStorage.dest_id));
-                    drawLines(coords);
+                data = JSON.parse(data);
+                sessionStorage.dot_id = data.dot_id - 1;
 
-                    // draw location on map
-                    points_Off(dots);
-                    points_Off(dest);
-                    points_Off(map_path);
-                    dots[sessionStorage.dot_id].setAttributeNS(null, 'fill', '#d74200');
-                    document.getElementById(sessionStorage.dest_id).setAttributeNS(null, 'fill', '#FFFFFF');
+                // draw routes
+                let coords = getCoordinatesForRoute(String(data.dot_id), String(sessionStorage.dest_id));
+                drawLines(coords);
 
-                    // remove spinner
-                    scanBtn.style.padding = '1em';
-                    spinner.classList.add('d-none');
-                    spinner_text.textContent = 'Scan';
-                },
-                error: function (data) {
-                    console.log('There was an error uploading your file!');
-                }
-            }).done(function () {
-                console.log("Sent");
-            });
-        }, 1000);
+                // draw location on map
+                points_Off(dots);
+                points_Off(dest);
+                points_Off(map_path);
+                dots[sessionStorage.dot_id].setAttributeNS(null, 'fill', '#d74200');
+                document.getElementById(sessionStorage.dest_id).setAttributeNS(null, 'fill', '#FFFFFF');
+
+                // remove spinner
+                scanBtn.style.padding = '1em';
+                spinner.classList.add('d-none');
+                spinner_text.textContent = 'Scan';
+                document.getElementById('arrow').style.display = 'none';
+
+            },
+            error: function (data) {
+                console.log('There was an error uploading your file!');
+            }
+        }).done(function () {
+            console.log("Sent");
+        });
     }
 
     function drawLines(coords) {
@@ -167,6 +183,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+
     function myTimer() {
         var canvas = document.getElementById('canvas');
         var ctx = canvas.getContext('2d');
@@ -177,19 +194,25 @@ window.addEventListener('DOMContentLoaded', () => {
         document.getElementById("canvas").style = "display:none;"
         let data = canvas.toDataURL("image/JPEG");
 
-        let req = $.ajax({
-            type: "POST",
-            url: "/uploadImage",
-            data: data,
-            contentType: 'image/jpeg',
-            processData: false,
-            success: function (data) {
-            },
-            error: function (data) {
-                console.log('There was an error uploading your file!');
-            }
-        }).done(function () {
-            console.log("Sent");
-        });
+        counter++;
+        if(counter === FRAMES) {
+            processImages();
+            clearInterval(interval);
+            counter = 0;
+        }
+        else {
+            let req = $.ajax({
+                type: "POST",
+                url: "/uploadImage",
+                data: data,
+                contentType: 'image/jpeg',
+                processData: false,
+                success: function (data) {
+                },
+                error: function (data) {
+                    console.log('There was an error uploading your file!');
+                }
+            });
+        }
     }
 });
