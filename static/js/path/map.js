@@ -10,6 +10,10 @@ export function getCoordinatesForRoute(start_id, destination_id){
     // Get shortest path ID's using internal map (defined at line 147@map.js)
     let path = graph.findShortestPath(start_id, destination_id);
     // for every ID, find the element and get XY coordinates
+    console.log("PATH: ");
+    console.log(path);
+    console.log("after func: " + start_id)
+    console.log('afer func: '+ destination_id)
     path.forEach(node_id => {
         let x,y = 0;
         let node = document.getElementById(node_id); 

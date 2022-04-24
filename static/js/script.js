@@ -11,13 +11,12 @@ window.addEventListener('DOMContentLoaded', () => {
         alert("Camera access permissions available in your browser");
         return;
     }
-
-
+    
     // TEST SVG MAP
     let dots = document.querySelectorAll('.point');
     let dest = document.querySelectorAll('.destination');
     let map_path = document.querySelectorAll('.item');
-
+    
     function points_Off(arr) {
         for (var i = 0; i < arr.length; i++) {
             arr[i].setAttributeNS(null, 'fill', '#0d6efd00');
@@ -28,7 +27,6 @@ window.addEventListener('DOMContentLoaded', () => {
     points_Off(dots);
     points_Off(dest);
     points_Off(map_path);
-
 
     // get page elements
     const video = document.querySelector("#video");
@@ -54,7 +52,7 @@ window.addEventListener('DOMContentLoaded', () => {
             },
         },
     };
-
+    
     // stop video stream
     function stopVideoStream() {
         if (videoStream) {
@@ -82,9 +80,24 @@ window.addEventListener('DOMContentLoaded', () => {
     let scanBtn = document.getElementById('scanBtn');
     let spinner = document.getElementById('spinner');
     let spinner_text = document.getElementById('spinner-text');
-
+    let select = document.getElementById('sel1');
     scanBtn.addEventListener("click", scanEnvironment);
 
+
+    select.addEventListener("change", () => {
+        let check = typeof sessionStorage.dot_id === null;
+        if(check==false) {
+            points_Off(map_path);
+            points_Off(dest);
+            sessionStorage.dest_id = select.value;
+            document.getElementById(sessionStorage.dest_id).setAttributeNS(null, 'fill', '#FFFFFF');
+            let location = parseInt(sessionStorage.dot_id)+1;
+
+            // draw routes  
+            let coords = getCoordinatesForRoute(String(location), String(sessionStorage.dest_id));
+            drawLines(coords);
+        }
+    });
 
     function scanEnvironment() {
         // add spinner
@@ -93,7 +106,7 @@ window.addEventListener('DOMContentLoaded', () => {
         scanBtn.style.padding = '0.5em 1em';
 
         // store destination
-        sessionStorage.dest_id = document.getElementById('sel1').value;
+        sessionStorage.dest_id = select.value;
         console.log('selected destination: ', sessionStorage.dest_id);
 
         // Take a photo every 0.5s and upload it
@@ -134,9 +147,8 @@ window.addEventListener('DOMContentLoaded', () => {
             }).done(function () {
                 console.log("Sent");
             });
-        }, 10000);
+        }, 1000);
     }
-
 
     function drawLines(coords) {
         $("#Layer_1").find('.delete').remove();
