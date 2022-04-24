@@ -12,4 +12,4 @@ app.config['ALLOWED_EXTENSIONS'] = ALLOWED_EXTENSIONS
 
 if __name__ == "__main__":
     app.register_blueprint(app_index)
-    app.run(debug=False, port=PORT)
+    app.run(debug=True, port=PORT)

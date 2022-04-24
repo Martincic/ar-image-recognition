@@ -1,7 +1,7 @@
 import { getCoordinatesForRoute } from './path/map.js';
 
 
-const FRAMES = 4;
+const FRAMES = 5;
 let counter = 0;    //counter to stop scan after FRAMES/2
 
 
@@ -115,22 +115,14 @@ window.addEventListener('DOMContentLoaded', () => {
         // store destination
         sessionStorage.dest_id = select.value;
         console.log('selected destination: ', sessionStorage.dest_id);
+        scanBtn.disabled = true;
+        select.disabled = true;
 
         // Take a photo every 0.5s and upload it
         interval = setInterval(myTimer, 500);
-        
-        // push this to myTimer
-        // if(counter === 2) {
-        //     console.log('counter is 2');
-        //     processImages();
-        //     clearInterval(interval);
-        //     counter = 0;
-        // }
-
     }
 
     function processImages() {
-        clearInterval(interval);
         $.ajax({
             type: "GET",
             url: "/processImages",
@@ -196,6 +188,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
         counter++;
         if(counter === FRAMES) {
+            scanBtn.disabled = false;
+            select.disabled = false;
+
             processImages();
             clearInterval(interval);
             counter = 0;

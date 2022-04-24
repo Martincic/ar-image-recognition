@@ -135,8 +135,8 @@ class ObjectDetection:
             dots[dot] += predictions[room]['confidence']
         
         # If we found lab tag, ignore dots without lab tag
-        if dots['lab'] > 1.5:
-            print('LAB > 1.5')
+        if dots['lab'] > 2:
+            print('LAB > 2')
             dots.pop('1')
             dots.pop('2')
             dots.pop('3')
@@ -144,14 +144,16 @@ class ObjectDetection:
             dots.pop('8')
         
         # # If we think it's door 19, and no paws found, it's probbably door 19
-        if dots['paw'] < 1 and dots['2'] > 1:
-            print('special case 2')
-            return '2'
+        # if dots['paw'] < 1 and dots['2'] > 1:
+        #     print('special case 2')
+        #     return '2'
         
         # remove indicators (non room labels)
         dots.pop('paw')
         dots.pop('lab')
-        return max(dots, key=dots.get)
+        result = max(dots, key=dots.get)
+        print("RESULT: "+result)
+        return result
 
     # def __call__(self):
     #     """
