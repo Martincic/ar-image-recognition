@@ -1,9 +1,11 @@
 import { getCoordinatesForRoute } from './path/map.js';
 
 
-const FRAMES = 5;
+const FRAMES = 10;
 let counter = 0;    //counter to stop scan after FRAMES/2
 
+sessionStorage.dest_id = '';
+sessionStorage.dot_id = '';
 
 // getUserMedia from https://www.webdevdrops.com/en/how-to-access-device-cameras-with-javascript/
 window.addEventListener('DOMContentLoaded', () => {
@@ -89,7 +91,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
     select.addEventListener("change", () => {
-        let check = typeof sessionStorage.dot_id === null;
+        let check = sessionStorage.dot_id === '';
         if(check==false) {
             points_Off(map_path);
             points_Off(dest);
